@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+    <div style="margin-top: 50px">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h1 class="text-center">Inscription</h1>
+                {{ form_row(form.email) }}
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                {{ form_row(form.password) }}
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-2">
+                {{ form_row(form.name) }}
+            </div>
+            <div class="col-md-2">
+                {{ form_row(form.lastname) }}
+            </div>
+            <div class="col-md-2">
+                {{ form_row(form.birthday) }}
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-2">
+                {{ form_row(form.country) }}
+            </div>
+            <div class="col-md-2">
+                {{ form_row(form.city) }}
+            </div>
+            <div class="col-md-2">
+                {{ form_row(form.adress) }}
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                {{ form_row(form.image) }}
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-3">
+                <button style="width: 200px;" type="submit" class="btn btn-primary">Valider</button>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

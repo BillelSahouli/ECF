@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AccountController!{% endblock %}
+
+{% block body %}
+<div>
+    <h1>Infos Compte</h1>
+    <div>
+        {{ app.user.name }} {{ app.user.lastname }}
+    </div>
+    <div>
+        info perso
+    </div>
+    <div>
+        info perso
+    </div>
+    <div>
+        info perso
+    </div>
+    <div>
+        info perso
+    </div>
+    <div>
+        info perso
+    </div>
+</div>
+    {{ dump(app.user) }}
+{% endblock %}
