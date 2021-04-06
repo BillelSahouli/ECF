@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AccountController!{% endblock %}
+{% block title %}Hello AdminController!{% endblock %}
 
 {% block body %}
+ADMIN
     {% for userInfo in userInformation %}
-        {% if app.user.id == userInfo.id %}
             <div>
                 <h1>Infos Compte</h1>
                 <div>
@@ -16,10 +16,6 @@
 
                 <img src="{{ asset('assets/image/') }}{{ userInfo.image }}" width="700" >
             </div>
-        {% elseif app.user.id != userInfo.id %}
-        {% endif %}
     {% endfor %}
 
-
 {% endblock %}
-

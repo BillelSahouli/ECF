@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -69,6 +71,20 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $image;
+
+    /**
+     * @ORM\OneToMany(targetEntity=BankAccount::class, mappedBy="userBelongs")
+     */
+    private $userBankAccount;
+
+    public function __construct()
+    {
+        $this->userBankAccount = new ArrayCollection();
+    }
+
+    public function __toString() {
+        return 'Prenom : '.$this->name.' | Nom : '.$this->lastname.' | Email '.$this->email;
+    }
 
     public function getId(): ?int
     {
@@ -231,6 +247,36 @@ class User implements UserInterface
     public function setImage(string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|BankAccount[]
+     */
+    public function getUserBankAccount(): Collection
+    {
+        return $this->userBankAccount;
+    }
+
+    public function addUserBankAccount(BankAccount $userBankAccount): self
+    {
+        if (!$this->userBankAccount->contains($userBankAccount)) {
+            $this->userBankAccount[] = $userBankAccount;
+            $userBankAccount->setUserBelongs($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserBankAccount(BankAccount $userBankAccount): self
+    {
+        if ($this->userBankAccount->removeElement($userBankAccount)) {
+            // set the owning side to null (unless already changed)
+            if ($userBankAccount->getUserBelongs() === $this) {
+                $userBankAccount->setUserBelongs(null);
+            }
+        }
 
         return $this;
     }
