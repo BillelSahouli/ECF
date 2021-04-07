@@ -5,21 +5,48 @@
 {% block body %}
     {% for userInfo in userInformation %}
         {% if app.user.id == userInfo.id %}
-            <div>
-                <h1>Infos Compte</h1>
-                <div>
-                    NOM : {{ userInfo.lastname }} PRENOM :{{ userInfo.name }}
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-4 mb-4" style="left: 50px;">
+                    <div class="card">
+                        <img class="card-img-top" src="{{ asset('assets/image/') }}{{ userInfo.image }}" alt="Card image cap">
+                        <div class="card-body">
+                            <p class="card-text">
+                               NOM : {{ userInfo.lastname }} <br>
+                                PRENOM : {{ userInfo.name }}<br>
+                                PAYS : {{ userInfo.country }}<br>
+                                VILLE : {{ userInfo.city }}<br>
+                                ADRESSE : {{ userInfo.adress }}<br>
+                                E-MAIL : {{ userInfo.email }}
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    E-Mail : {{ userInfo.email }}
-                </div>
-
-                <img src="{{ asset('assets/image/') }}{{ userInfo.image }}" width="700" >
             </div>
-        {% elseif app.user.id != userInfo.id %}
+            {% elseif app.user.id != userInfo.id %}
         {% endif %}
     {% endfor %}
 
+    {% for userBank in app.user.userBankAccount %}
+        {% if userBank.accountIsActive == true %}
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-4 mb-4" style="left: 50px;">
+                    <div class="card">
+                        <div class="card-body">
+                                <p class="card-text">
+                                    IDENTIFIANT : {{ userBank.uniqueId }}<br>
+                                    <a href="{{ path('account_current', {'id' : userBank.id}) }}">COMPTE COURANT : {{ userBank.currentAccount }}</a><br>
+                                    <a href="{{ path('account_bookletA', {'id' : userBank.id}) }}">LIVRET A : {{ userBank.bookletA }}</a><br>
+                                    SITUATION DU COMPTE : ACTIF<br>
+                                </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+                En cours de traitement
+        {% endif %}
+
+    {% endfor %}
 
 {% endblock %}
 

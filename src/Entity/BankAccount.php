@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\BankAccountRepository;
 use Doctrine\ORM\Mapping as ORM;
+use function MongoDB\Driver\Monitoring\removeSubscriber;
 
 /**
  * @ORM\Entity(repositoryClass=BankAccountRepository::class)
@@ -54,6 +55,10 @@ class BankAccount
     }
 
 
+    public function __toString() {
+
+        return $this->getUniqueId();
+    }
 
     public function getUniqueId(): ?string
     {
@@ -62,7 +67,6 @@ class BankAccount
 
     public function setUniqueId(string $uniqueId): self
     {
-
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $string = '';
 
@@ -72,6 +76,42 @@ class BankAccount
         $this->uniqueId = $uniqueId.''.$string;
 
         return $this;
+    }
+//retire une somme du compte courant
+    public function getSubCurrentAccount()
+    {
+        if ($this->getTransfer() > 0){
+            $result = $this->setCurrentAccount($this->getCurrentAccount() - $this->getTransfer());
+        }
+
+       return $result;
+    }
+//rentre la somme retiré du compte courant vers LIVRET A
+    public function getTransferCurrentInBookletA()
+    {
+        if ($this->getTransfer() > 0){
+            $result = $this->setBookletA($this->getBookletA() + $this->getTransfer());
+        }
+
+        return $result;
+    }
+
+    //retire une somme du LIVRET A
+    public function getSubBookletA()
+    {
+        if ($this->getTransfer() > 0){
+            $result = $this->setBookletA($this->getBookletA() - $this->getTransfer());
+        }
+        return $result;
+    }
+
+    //rentre la somme retiré du LIVRET A vers COMPTE COURANT
+    public function getTransferBookletAInCurrentAccount()
+    {
+        if ($this->getTransfer() > 0){
+            $result = $this->setCurrentAccount($this->getCurrentAccount() + $this->getTransfer());
+        }
+        return $result;
     }
 
     public function getCurrentAccount(): ?int
