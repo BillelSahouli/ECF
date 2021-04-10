@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\BankAccount;
 use App\Entity\User;
 use App\Form\BankAccountType;
-use App\Form\RegisterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,26 +43,60 @@ class AdminController extends AbstractController
     public function validatorBankAccount(Request $request): Response
     {
         $notification = null;
+
         $bank = new BankAccount();
+        $user = new User();
 
         $form = $this->createForm( BankAccountType::class, $bank);
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $bank->getAccountIsActive() === true && $bank->getBookletA() > 0 && $bank->getCurrentAccount() > 0 && strlen($bank->getUniqueId()) > 7 && $form->isValid() ){
 
-            if ($bank->getAccountIsActive() == 0)
-            {
-                $notification = "Le compte doit etre activer";
-            }else{
-                $bank = $form->getData();
+            $bank = $form->getData();
+
+            $id2 = $this->entityManager->getRepository(BankAccount::class)->findAll();
+
+//parcour de $id2. La variable e est un tableau qui stock la function getUserBelongs().
+            foreach ($id2 as $t){
+                $e[] = $t->getUserBelongs();
+            }
+            $bool= null;
+//parcour du tableau e. Si $bank->getUserBelongs() et egal a une valeur du tableau "e" alors l'id existe deja donc false.
+
+            foreach ($e as $b){
+                if ($bank->getUserBelongs() == $b){
+                    $bool = false;
+                }
+            }
+//Ont insere si different de false
+
+            if ($bool !== false){
                 $this->entityManager->persist($bank);
                 $this->entityManager->flush();
             }
+
+
         }
 
         return $this->render('admin/validatorBankAccount.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/admin/delete/{id}", name="admin_delete_account")
+     */
+    public function deleteBankAccount($id): Response
+    {
+        $user = $this->entityManager->getRepository(User::class)->find($id);
+        $userInformation = $this->entityManager->getRepository(User::class)->findAll();
+
+        $this->entityManager->remove($user);
+        $this->entityManager->flush();
+
+        return $this->render('admin/index.html.twig', [
+            'userInformation' => $userInformation,
         ]);
     }
 }

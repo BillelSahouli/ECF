@@ -16,6 +16,12 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class RegisterController extends AbstractController
 {
+    private $entityManager;
+
+    /**
+     * AccountController constructor.
+     * @param $entityManager
+     */
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this -> entityManager = $entityManager;
@@ -35,8 +41,9 @@ class RegisterController extends AbstractController
         $form->handleRequest($request);
 
         // Verifie si le formulaire a été soumis et si il est valide
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid() && $user->getIsDelete() == null){
 
+            $user->setIsDelete(0);
             $imgIdentity = $form->get('image')->getData();
             // Récupere les donner soumis dans le formulaire apres avoir cliquez sur submit
             $user = $form->getData();

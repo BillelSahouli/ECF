@@ -17,14 +17,13 @@ class BankAccountType extends AbstractType
             ->add('uniqueId')
             ->add('currentAccount')
             ->add('bookletA')
-            ->add('transfer')
             ->add('accountIsActive')
             ->add('userBelongs',EntityType::class, [
                 'label' => 'Quel compte valider ?',
                 'required' => true,
                 'class' => User::class,
                 'multiple' => false,
-                'expanded' => true
+                'expanded' => false,
             ])
         ;
     }

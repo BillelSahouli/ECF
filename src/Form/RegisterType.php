@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -23,6 +24,7 @@ class RegisterType extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 'label' => 'Email',
+                'required' => true,
                 'constraints' => new Length([
                     'min' => 2,
                     'max' => 60
@@ -54,6 +56,7 @@ class RegisterType extends AbstractType
             ])
             ->add('name', TextType::class, [
                 'label' => 'Prénom',
+                'required' => true,
                 'constraints' => new Length([
                     'min' => 2,
                     'max' => 20
@@ -63,6 +66,7 @@ class RegisterType extends AbstractType
                 ]
             ])
             ->add('lastname', TextType::class, [
+                'required' => true,
                 'constraints' => new Length([
                     'min' => 2,
                     'max' => 40
@@ -72,8 +76,9 @@ class RegisterType extends AbstractType
                     'placeholder' => 'Nom'
                 ]
             ])
-            ->add('birthday', DateType::class,[
+            ->add('birthday', BirthdayType::class,[
                 'label' => 'Date de naissance',
+                'required' => true,
                 'format' => 'ddMMyyyy',
                 'attr' => [
                     'class' => 'custom-date'
@@ -84,18 +89,21 @@ class RegisterType extends AbstractType
             ])
             ->add('country', CountryType::class, [
                 'label' => 'Pays',
+                'required' => true,
                 'attr' => [
                     'placeholder' => 'Pays'
                 ]
             ])
             ->add('city', TextType::class, [
                 'label' => 'Ville',
+                'required' => true,
                 'attr' => [
                     'placeholder' => 'Ville'
                 ]
             ])
             ->add('adress', TextType::class, [
                 'label' => 'Adresse',
+                'required' => true,
                 'attr' => [
                     'placeholder' => 'Adresse'
                 ]

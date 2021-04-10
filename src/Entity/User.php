@@ -73,9 +73,20 @@ class User implements UserInterface
     private $image;
 
     /**
-     * @ORM\OneToMany(targetEntity=BankAccount::class, mappedBy="userBelongs")
+     * @ORM\OneToMany(targetEntity=BankAccount::class, mappedBy="userBelongs", cascade="remove")
      */
     private $userBankAccount;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isDelete;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $signatureDeleteAccount;
+
 
     public function __construct()
     {
@@ -83,7 +94,13 @@ class User implements UserInterface
     }
 
     public function __toString() {
-        return 'Prenom : '.$this->name.' | Nom : '.$this->lastname.' | Email '.$this->email;
+
+        foreach ($this->getUserBankAccount() as $dddd){
+            if (!is_null($dddd)){
+                return "ATTENTION DEJA VALIDER";
+            }
+        }
+        return $this->getEmail();
     }
 
     public function getId(): ?int
@@ -277,7 +294,31 @@ class User implements UserInterface
                 $userBankAccount->setUserBelongs(null);
             }
         }
+        return $this;
+    }
+
+    public function getIsDelete(): ?bool
+    {
+        return $this->isDelete;
+    }
+
+    public function setIsDelete(bool $isDelete): self
+    {
+        $this->isDelete = $isDelete;
 
         return $this;
     }
+
+    public function getSignatureDeleteAccount(): ?string
+    {
+        return $this->signatureDeleteAccount;
+    }
+
+    public function setSignatureDeleteAccount(?string $signatureDeleteAccount): self
+    {
+        $this->signatureDeleteAccount = $signatureDeleteAccount;
+
+        return $this;
+    }
+
 }

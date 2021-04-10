@@ -1,3 +1,16 @@
 .card-text {
     font-family: 'Catamaran', sans-serif;
 }
+.card-text a {
+    text-decoration: none;
+    padding: 8px 18px;
+    background-color: #E9724C;
+    border-radius: 5px;
+    display: inline-block;
+    color: #C5283D;
+}
+
+.card {
+    background-color: #FFC857;
+    border-radius: 25px;
+}

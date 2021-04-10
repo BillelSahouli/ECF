@@ -9,6 +9,9 @@
         <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
         <link href="{{ asset('assets/css/bootstrap.rtl.min.css') }}" rel="stylesheet">
         <link href="{{ asset('assets/css/navbar-top-fixed.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/css/dashboard.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/css/dashboard.rtl.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/css/account.css') }}" rel="stylesheet">
         <style>
             .bd-placeholder-img {
                 font-size: 1.125rem;
@@ -35,6 +38,14 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     {% if app.user %}
+                        {% if is_granted("ROLE_ADMIN") %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('admin') }}">(ADMIN) Carte Identité/Suppression</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('admin_validator') }}">(ADMIN) Valider compte</a>
+                            </li>
+                        {% endif %}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('account') }}">Compte</a>
                         </li>
@@ -55,6 +66,7 @@
     </nav>
         {% block body %}
         {% endblock %}
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dashboard.js') }}"></script>
     </body>
 </html>

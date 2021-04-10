@@ -3,19 +3,48 @@
 {% block title %}Hello AdminController!{% endblock %}
 
 {% block body %}
-ADMIN
-    {% for userInfo in userInformation %}
-            <div>
-                <h1>Infos Compte</h1>
-                <div>
-                    NOM : {{ userInfo.lastname }} PRENOM :{{ userInfo.name }}
-                </div>
-                <div>
-                    E-Mail : {{ userInfo.email }}
-                </div>
-
-                <img src="{{ asset('assets/image/') }}{{ userInfo.image }}" width="700" >
-            </div>
-    {% endfor %}
-
+    <h2>Section title</h2>
+    <div class="table-responsive">
+        <table class="table table-sm">
+            <thead>
+            <tr>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>E-mail</th>
+                <th>Pays</th>
+                <th>Ville</th>
+                <th>Identité</th>
+                <th>Supprimer le compte</th>
+                <th>Compte bancaire</th>
+            </tr>
+            </thead>
+            {% for userInfo in userInformation %}
+                <tbody>
+                <tr>
+                    <td>{{ userInfo.name }}</td>
+                    <td>{{ userInfo.lastname }}</td>
+                    <td>{{ userInfo.email }}</td>
+                    <td>{{ userInfo.country }}</td>
+                    <td>{{ userInfo.city }}</td>
+                    <td><img src="{{ asset('assets/image/') }}{{ userInfo.image }}" width="200"></td>
+                    {# Compte a supprimé = 1 #}
+                    {% if userInfo.isDelete == 1 %}
+                        <td><button class="btn btn-outline-dark btn-delete" type="submit">
+                                <a href="{{ path('admin_delete_account', {'id' : userInfo.id}) }}">Suprimer</a>
+                            </button> <br>
+                            <img src="{{ asset('assets/signature/') }}{{ userInfo.signatureDeleteAccount }}" width="100"></td>
+                    {% else %}
+                        <td>NON</td>
+                    {% endif %}
+                    {# Compte bancaire activer = 1 #}
+                    {% for bankInfoUser in userInfo.userBankAccount %}
+                        {% if bankInfoUser.accountIsActive == 1 %}
+                            <td>Compte bancaire ACTIF</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+    </div>
 {% endblock %}
