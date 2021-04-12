@@ -112,6 +112,9 @@ class RegisterType extends AbstractType
                 'label' => "Pièce d'identité",
                 'mapped' => false,
                 'required' => true,
+                'attr' => [
+                    'placeholder' => "Inserez une piece d'identité valide"
+                ],
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',

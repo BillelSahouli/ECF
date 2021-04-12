@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\BankAccountRepository;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Integer;
 use function MongoDB\Driver\Monitoring\removeSubscriber;
 
 /**
@@ -77,41 +78,41 @@ class BankAccount
 
         return $this;
     }
+
 //retire une somme du compte courant
     public function getSubCurrentAccount()
     {
-        if ($this->getTransfer() > 0){
+        if ($this->getTransfer() <= $this->getCurrentAccount() ){
             $result = $this->setCurrentAccount($this->getCurrentAccount() - $this->getTransfer());
+        }else {
+           $p = $this->getCurrentAccount() - $this->getTransfer();
+           $i = $p + $this->getTransfer();
+           $result = $this->setCurrentAccount($this->getCurrentAccount() - $i)->setTransfer($i);
         }
-
-       return $result;
+        return $result;
     }
-//rentre la somme retiré du compte courant vers LIVRET A
+    //rentre la somme retiré du compte courant vers LIVRET A
     public function getTransferCurrentInBookletA()
     {
-        if ($this->getTransfer() > 0){
-            $result = $this->setBookletA($this->getBookletA() + $this->getTransfer());
-        }
-
-        return $result;
+        return $result = $this->setBookletA($this->getBookletA() + $this->getTransfer());
     }
 
     //retire une somme du LIVRET A
     public function getSubBookletA()
     {
-        if ($this->getTransfer() > 0){
+        if ($this->getTransfer() <= $this->getBookletA() ){
             $result = $this->setBookletA($this->getBookletA() - $this->getTransfer());
+        }else {
+            $p = $this->getBookletA() - $this->getTransfer();
+            $i = $p + $this->getTransfer();
+            $result = $this->setBookletA($this->getBookletA() - $i)->setTransfer($i);
         }
         return $result;
     }
-
     //rentre la somme retiré du LIVRET A vers COMPTE COURANT
     public function getTransferBookletAInCurrentAccount()
     {
-        if ($this->getTransfer() > 0){
-            $result = $this->setCurrentAccount($this->getCurrentAccount() + $this->getTransfer());
-        }
-        return $result;
+        return $result = $this->setCurrentAccount($this->getCurrentAccount() + $this->getTransfer());
     }
 
     public function getCurrentAccount(): ?int

@@ -51,7 +51,7 @@ class AdminController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $bank->getAccountIsActive() === true && $bank->getBookletA() > 0 && $bank->getCurrentAccount() > 0 && strlen($bank->getUniqueId()) > 7 && $form->isValid() ){
+        if ($form->isSubmitted() && $bank->getAccountIsActive() === true && $bank->getBookletA() > 0 && $bank->getCurrentAccount() > 0 && strlen($bank->getUniqueId()) === 8 && $form->isValid() ){
 
             $bank = $form->getData();
 

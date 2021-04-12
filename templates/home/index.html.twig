@@ -1,8 +1,18 @@
 {% extends 'base.html.twig' %}
 {% block title %}Acceuil{% endblock %}
 {% block body %}
-    <p>
-        WESH
-    </p>
-
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-md-auto shadow-sm p-3 mb-5 bg-body rounded border border-secondary">
+                <h1>BANKFORCE</h1>
+                <p class="text-justify fs-3">
+                    <b>BANKFORCE</b> la premier banque en ligne qui offres les taux de prêt les plus bas
+                    arrivé depuis juin 2020, nous nous sommes vite imposer dans le secteur bancaire
+                    nottament avec nos <a href="{{ path('register') }}">prêt les plus bas</a> et sur de longues périodes
+                    BANKFORCE est la meilleurs option pour vos prêt, <a href="{{ path('register') }}">pour vos virement</a> ou alors un
+                    <a href="{{ path('register') }}">compte entreprise</a>, BANKFORCE est aussi présent sur<b> Malt et Dubaï</b>.
+                </p>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -81,8 +81,8 @@ class AccountController extends AbstractController
                 $account->getTransferCurrentInBookletA();
 
             $this->entityManager->persist($account);
-
             $this->entityManager->flush();
+            return $this->redirectToRoute('account_current', ['id'=> $account->getId()]);
         }
 
 
@@ -106,8 +106,8 @@ class AccountController extends AbstractController
             $account->getTransferBookletAInCurrentAccount();
 
             $this->entityManager->persist($account);
-
             $this->entityManager->flush();
+            return $this->redirectToRoute('account_bookletA', ['id'=> $account->getId()]);
         }
 
         return $this->render('account/transferCurrentAccount.html.twig',[
