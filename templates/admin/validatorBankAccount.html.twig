@@ -4,7 +4,7 @@
 
 {% block body %}
     {{ form_start(form) }}
-    <div style="margin-top: 50px">
+    <div class="container-fluid" style="margin-top: 50px">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <h1 class="text-center">Valider des comptes</h1>
@@ -32,10 +32,25 @@
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class="col-md-3">
-                <button style="width: 200px;" type="submit" class="btn btn-primary">Valider</button>
-            </div>
+                <button style="width: 200px;" type="submit" class="btn btn-primary">
+                    Valider
+                </button>
         </div>
+        <br>
+        {% for message in app.flashes('success') %}
+            <div class="row justify-content-center">
+                <div class="alert alert-success col-md-2">
+                    <div class="text-center">{{ message }}</div>
+                </div>
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('no-success') %}
+            <div class="row justify-content-center">
+                <div class="alert alert-danger col-sm-2">
+                    <div class="text-center">{{ message }}</div>
+                </div>
+            </div>
+        {% endfor %}
     </div>
     {{ form_end(form) }}
 {% endblock %}

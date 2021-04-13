@@ -32,10 +32,11 @@ class RegisterController extends AbstractController
      */
     public function index(Request $request, UserPasswordEncoderInterface $encoder, SluggerInterface $slugger): Response
     {
-        // Notification pour dire a l'utilisateur si l'inscription c'est bien déroulé
+
         if ($this->getUser()) {
             return $this->redirectToRoute('account');
         }
+        // Notification pour dire a l'utilisateur si l'inscription c'est bien déroulé
         $notification = null;
 
         $user = new User();

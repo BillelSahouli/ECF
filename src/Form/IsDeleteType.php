@@ -20,11 +20,11 @@ class IsDeleteType extends AbstractType
                 'label' => 'Cochez'
             ])
             ->add('signatureDeleteAccount', FileType::class, [
-                'label' => "Signature",
+                'label' => "Justificatif",
                 'mapped' => false,
                 'required' => true,
                 'attr' => [
-                    'placeholder' => "insérez une photo de signature avec piece d'identité"
+                    'placeholder' => "insérez lettre signer + piece d'identité"
                 ],
                 'constraints' => [
                     new File([

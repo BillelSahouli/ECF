@@ -45,13 +45,13 @@ class AdminController extends AbstractController
         $notification = null;
 
         $bank = new BankAccount();
-        $user = new User();
 
         $form = $this->createForm( BankAccountType::class, $bank);
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $bank->getAccountIsActive() === true && $bank->getBookletA() > 0 && $bank->getCurrentAccount() > 0 && strlen($bank->getUniqueId()) === 8 && $form->isValid() ){
+        if ($form->isSubmitted() && $bank->getAccountIsActive() === true && $bank->getBookletA() > 0
+            && $bank->getCurrentAccount() > 0 && strlen($bank->getUniqueId()) === 8 && $form->isValid() ){
 
             $bank = $form->getData();
 
@@ -67,20 +67,22 @@ class AdminController extends AbstractController
             foreach ($e as $b){
                 if ($bank->getUserBelongs() == $b){
                     $bool = false;
+                    $this->addFlash('no-success', 'Déja valider !');
                 }
             }
-//Ont insere si different de false
 
+//Ont insere si different de false
             if ($bool !== false){
                 $this->entityManager->persist($bank);
                 $this->entityManager->flush();
+                $this->addFlash('success', 'Compte bancaire valider !');
             }
-
 
         }
 
         return $this->render('admin/validatorBankAccount.html.twig', [
             'form' => $form->createView(),
+            'notification' => $notification,
         ]);
     }
 
