@@ -3,10 +3,11 @@
 {% block title %}Hello AdminController!{% endblock %}
 
 {% block body %}
-    <h2>Section title</h2>
-    <div class="table-responsive">
-        <table class="table table-sm">
-            <thead>
+    <div class="table-responsive container-fluid">
+        <h2>INFOS UTILISATEURS</h2>
+        <table class="table table-sm text-center" id="myTable">
+            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Recherche par pays" title="Type in a name">
+            <thead class="text-uppercase">
             <tr>
                 <th>Prénom</th>
                 <th>Nom</th>
@@ -14,7 +15,7 @@
                 <th>Pays</th>
                 <th>Ville</th>
                 <th>Identité</th>
-                <th>Supprimer le compte</th>
+                <th>Demande de suppression</th>
                 <th>Compte bancaire</th>
             </tr>
             </thead>
@@ -26,15 +27,19 @@
                     <td>{{ userInfo.email }}</td>
                     <td>{{ userInfo.country }}</td>
                     <td>{{ userInfo.city }}</td>
-                    <td><img src="{{ asset('assets/image/') }}{{ userInfo.image }}" width="200"></td>
+                    <td><a href="{{ asset('assets/image/' ~ userInfo.image) }}" class="btn btn-success">Piece d'identité</a></td>
                     {# Compte a supprimé = 1 #}
                     {% if userInfo.isDelete == 1 %}
-                        <td><button class="btn btn-outline-dark btn-delete" type="submit">
+                        <td>
+                            <button class="btn btn-outline-dark btn-delete" type="submit">
                                 <a href="{{ path('admin_delete_account', {'id' : userInfo.id}) }}">Suprimer</a>
                             </button> <br>
-                            <img src="{{ asset('assets/signature/') }}{{ userInfo.signatureDeleteAccount }}" width="100"></td>
+                            <a href="{{ asset('assets/signature/' ~ userInfo.signatureDeleteAccount) }}" class="btn btn-success">
+                                Signature
+                            </a>
+                        </td>
                     {% else %}
-                        <td>NON</td>
+                        <td></td>
                     {% endif %}
                     {# Compte bancaire activer = 1 #}
                     {% for bankInfoUser in userInfo.userBankAccount %}
@@ -47,4 +52,24 @@
             {% endfor %}
         </table>
     </div>
+    <script>
+        function myFunction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[3];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
 {% endblock %}
