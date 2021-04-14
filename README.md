@@ -8,6 +8,10 @@ Versionning : Git
 Serveur : WAMP
 System : WINDOWS 10 64bit
 IDE : PHPSTORM
+-----------------------------------------
+# IMPORTANT!
+Le fichier pdf question et reflexion ce trouve dans le dossier PDF-ECF
+voici le lien direct https://github.com/BillelSahouli/ECF/tree/master/PDF-ECF
 --------------------------------------------
 # Deployement : HEROKU
 # 1 : Creer un compte HEROKU
